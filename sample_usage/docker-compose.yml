@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  ssh-bastion:
+    build: .
+    cap_drop:
+      - ALL
+    cap_add:
+      - SETGID
+      - SETUID
+      - SYS_CHROOT
+      - KILL
+    tmpfs:
+      - /tmp
+      - /var/tmp
+    deploy:
+      resources:
+        limits:
+          cpus: '0.001'
+          memory: 128M
+        restart-policy:
+          condition: any
+    ports:
+      - "2200:2200"
+    read_only: true
