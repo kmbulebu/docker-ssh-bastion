@@ -1,4 +1,4 @@
-FROM alpine:edge
+FROM armhf/alpine:edge
 
 RUN apk add --update \
     openssh \
