@@ -17,6 +17,26 @@ cat ~/.ssh/id_rsa.pub >> authorized_keys
 docker-compose up
 ```
 
+Then connect to a server through the bastion:
+```
+ssh -A -o ProxyCommand='ssh -W %h:%p -p 2200 bastion@localhost' user@backendserver
+```
+
+In practice localhost would be the hostname of a machine running this container and
+user@backendserver would be the user and hostname of the machine you wanted to connect.
+
+## Updating SSH user config
+To avoid using the long form ssh command above, you can add this option to be applied
+by default in your ssh client user config. It's even possible to use wildcards for host to use the bastion as a proxy for an entire domain.
+
+`~/.ssh/config` snippet:
+```
+Host foo
+HostName foo
+User me
+ProxyCommand ssh -W %h:%p -p 2200 bastion@docker
+```
+
 # Notes
 
 * Only support proxying to other SSH hosts.
